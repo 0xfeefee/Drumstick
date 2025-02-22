@@ -2,6 +2,7 @@
 #pragma once
 #include <iostream> // IWYU pragma: keep
 #include <format>   // IWYU pragma: keep
+#include <vector>
 
 typedef uint8_t  u8;
 typedef int16_t  s16;

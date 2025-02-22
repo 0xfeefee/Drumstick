@@ -4,7 +4,7 @@
 namespace drumstick {
 
     /*
-        Disabling packing in order to map directly with one { memcpy } when using
+        Disabling padding* in order to map directly with one { memcpy } when using
         { Data_View.get<File_Header>() }.
         @todo: maybe do the reading step manually first to be safe...
     */

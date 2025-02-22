@@ -37,6 +37,11 @@ namespace drumstick {
         u8
         operator[](int index);
 
+        u8*
+        get_ptr() {
+            return ptr;
+        }
+
         template <typename T>
         T
         get() {
@@ -45,6 +50,26 @@ namespace drumstick {
 
             memcpy(&value, ptr, size);
             move(size);
+
+            return value;
+        }
+
+        template <typename T>
+        T*
+        get_view() {
+            T* value = reinterpret_cast<T*>(ptr);
+            move(static_cast<int>(sizeof(T)));
+
+            return value;
+        }
+
+        template <typename T>
+        T*
+        get_view_array(int array_size) {
+            EXPECT(array_size > 0);
+
+            T* value = reinterpret_cast<T*>(ptr);
+            move(static_cast<int>(sizeof(T) * array_size));
 
             return value;
         }

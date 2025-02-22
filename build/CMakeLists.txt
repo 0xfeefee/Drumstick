@@ -19,6 +19,13 @@ else()
 	add_compile_definitions(PROJECT_BUILD_RELEASE=1)
 endif()
 
+## Set compiler options:
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+	set(CMAKE_CXX_FLAGS_DEBUG 	"-Wall -Werror")
+	set(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wextra")
+endif()
+
+
 ## Add info string:
 set(INFO_STRING
 	"${CMAKE_PROJECT_NAME} v${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} (${CMAKE_BUILD_TYPE})"
@@ -27,6 +34,8 @@ set(INFO_STRING
 add_executable(Drumstick
 	${SRC}/base.pch.cpp
 	${SRC}/main.cpp
+	${SRC}/Data.cpp
+	${SRC}/File_Header.cpp
 )
 
 target_include_directories(Drumstick
@@ -52,3 +61,5 @@ target_compile_definitions(${PROJECT_NAME}
 	PROJECT_NAME="${PROJECT_NAME}"
 	PROJECT_INFO_STRING="${INFO_STRING}"
 )
+
+message(NOTICE "${CMAKE_CXX_COMPILER_ID}")

@@ -1,7 +1,4 @@
 
-#include <iostream>
-#include <format>
-
 namespace drumstick {
 
 constexpr const char* TERMINATE_MESSAGE_FORMAT = R"(
@@ -18,9 +15,9 @@ constexpr const char* TERMINATE_MESSAGE_FORMAT = R"(
         const char* condition_str,
         const char* message
     ) {
-        std::cout << std::format(TERMINATE_MESSAGE_FORMAT, file_name, line, condition_str);
+        print(TERMINATE_MESSAGE_FORMAT, file_name, line, condition_str);
         if (message) {
-            std::cout << std::format("* {}\n", message);
+            print("* {}\n", message);
         }
 
         std::terminate();

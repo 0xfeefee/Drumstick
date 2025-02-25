@@ -34,8 +34,9 @@ set(INFO_STRING
 add_executable(Drumstick
 	${SRC}/base.pch.cpp
 	${SRC}/main.cpp
-	${SRC}/Data.cpp
-	${SRC}/File_Header.cpp
+	${SRC}/drumstick/Data.cpp
+	${SRC}/drumstick/File_Header.cpp
+	${SRC}/drumstick/Coordinate.cpp
 )
 
 target_include_directories(Drumstick

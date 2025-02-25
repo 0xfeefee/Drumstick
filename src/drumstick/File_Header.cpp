@@ -1,5 +1,5 @@
 
-#include <File_Header.hpp>
+#include <drumstick/File_Header.hpp>
 
 namespace drumstick {
 
@@ -9,7 +9,7 @@ namespace drumstick {
         for (char& c: date_time) {
             print("{}", c);
         }
-        print("\n* row_count (NX): {}\n* column_count (NY): {}\n* level_count (N): {}\n* distance: {}\n* quant_count: {}\n", row_count, column_count, level_count, distance, quant_count);
+        print("\n* row_count (NY): {}\n* column_count (NX): {}\n* level_count (N): {}\n* distance: {}\n* quant_count: {}\n", row_count, column_count, level_count, distance, quant_count);
         print("\n");
     }
 

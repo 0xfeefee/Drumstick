@@ -1,5 +1,7 @@
 
-#include <Data.hpp>
+#include <drumstick/Data.hpp>
+
+#include <fstream>
 
 namespace drumstick {
 
@@ -25,6 +27,22 @@ namespace drumstick {
     Data_View
     Data::view(int start_pos) {
         return Data_View(*this, start_pos);
+    }
+
+    Data
+    Data::from_file(const std::string& file_name) {
+        EXPECT(file_name.size() > 0);
+
+        std::ifstream input_file(file_name, std::ios::binary | std::ios::ate);
+        EXPECT(input_file.is_open());
+
+        int size = input_file.tellg();
+        u8* ptr  = new u8[size];
+
+        input_file.seekg(0, std::ios::beg);
+        input_file.read(reinterpret_cast<char*>(ptr), size);
+
+        return Data(size, ptr);
     }
 
 

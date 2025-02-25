@@ -1,31 +1,16 @@
 
-#include <string>
-#include <fstream>
 
-#include <Data.hpp>
-#include <File_Header.hpp>
+#include <drumstick/Data.hpp>
+#include <drumstick/File_Header.hpp>
+#include <drumstick/Coordinate.hpp>
 using namespace drumstick;
-
-
-static inline Data
-read_entire_file(const std::string& file_name) {
-    EXPECT(file_name.size() > 0);
-
-    std::ifstream input_file(file_name, std::ios::binary | std::ios::ate);
-    EXPECT(input_file.is_open());
-
-    int size = input_file.tellg();
-    u8* ptr  = new u8[size];
-
-    input_file.seekg(0, std::ios::beg);
-    input_file.read(reinterpret_cast<char*>(ptr), size);
-
-    return Data(size, ptr);
-}
 
 int
 main(int, char*[]) {
-    Data data = read_entire_file("data/1706221600.29"); {
+    // Initialize to referece values given:
+    Projection projection(8.194, 50.437, 0, 0, 1018.18, 1018.18);
+
+    Data data = Data::from_file("data/1706221600.29"); {
         Data_View view = data.view(0);
 
         File_Header* header = view.get_view<File_Header>();
@@ -42,7 +27,7 @@ main(int, char*[]) {
         levels.reserve(header->level_count);
 
         for (int i = 0; i < header->level_count; ++i) {
-            u8* pixels = view.get_view_array<u8>(header->column_count*header->row_count);
+            u8* pixels = view.get_view_array<u8>(header->column_count * header->row_count);
             levels.push_back(pixels);
         }
 
@@ -51,6 +36,22 @@ main(int, char*[]) {
             assert if commented out:
         */
         // view.move(1);
+
+        /*
+            Generate coordinates:
+        */
+        std::vector<Coordinate> coordinates;
+        coordinates.reserve(header->column_count * header->row_count);
+
+        for (int y = 0; y < header->row_count; ++y) {
+            for (int x = 0; x < header->column_count; ++x) {
+                coordinates.push_back(projection.coordinate_from_grid_position(y, x));
+            }
+        }
+
+        for (Coordinate& c: coordinates) {
+            print("({}, {})  ", c.latitude, c.longitude);
+        }
     }
 
     return 0;

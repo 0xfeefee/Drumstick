@@ -19,6 +19,9 @@ namespace drumstick {
 
         Data_View
         view(int start_pos);
+
+        static Data
+        from_file(const std::string& file_name);
     };
 
     /*

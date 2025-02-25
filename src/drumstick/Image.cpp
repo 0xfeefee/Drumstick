@@ -11,13 +11,6 @@ namespace drumstick {
     Image::Image(int width, int height)
     : width(width), height(height), data(new u8[width * height * 4]) {}
 
-    Image::Image(int width, int height, u8* source)
-    : width(width), height(height), data(new u8[width * height * 3]) {
-        for (int i = 0; i < 3; ++i) {
-            memcpy(data+(i*(width*height)), source, width*height);
-        }
-    }
-
     Image::~Image() {
         /*
             @memory: no stall, leak it
@@ -47,9 +40,9 @@ namespace drumstick {
             image_path.c_str(),
             width,
             height,
-            3,
+            4,
             (void*)data,
-            width*3
+            width*4
         );
     }
 

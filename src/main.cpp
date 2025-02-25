@@ -17,8 +17,6 @@ main(int, char*[]) {
         File_Header* header = view.get_view<File_Header>();
         header->print_self();
 
-        // Image i(header->column_count, header->row_count, data);
-
         s16* quantisation_levels = view.get_view_array<s16>(header->quant_count);
         for (int i = 0; i < header->quant_count; ++i) {
             print("{}, ", quantisation_levels[i]);
@@ -26,13 +24,21 @@ main(int, char*[]) {
 
         print("\n");
 
+        // Levels:
         std::vector<u8*> levels;
         levels.reserve(header->level_count);
 
         for (int i = 0; i < header->level_count; ++i) {
             u8* pixels = view.get_view_array<u8>(header->column_count * header->row_count);
             levels.push_back(pixels);
-            Image(header->column_count, header->row_count, pixels).write_to_disk(std::format("level_{}.png", i));
+
+            Image image(header->column_count, header->row_count);
+            for (int k = 0; k < header->column_count*header->row_count; ++k) {
+                u32& pixel_value = image[k];
+                pixel_value = (pixels[i] ^ 0xFE) | pixels[i] << 8 | pixels[i] << 16 | 0xFF << 24;
+            }
+
+            image.write_to_disk(std::format("levels/level_{:02d}.png", i));
         }
 
         /*

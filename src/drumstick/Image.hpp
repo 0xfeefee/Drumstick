@@ -13,7 +13,7 @@ namespace drumstick {
         u8* data;
 
         Image(int width, int height);
-        Image(int width, int height, u8* data);
+        Image(int width, int height, u8* data, const std::vector<s16> quantization_levels);
         ~Image();
 
         int

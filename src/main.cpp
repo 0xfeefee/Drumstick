@@ -1,5 +1,4 @@
 
-
 #include <drumstick/Data.hpp>
 #include <drumstick/File_Header.hpp>
 #include <drumstick/Coordinate.hpp>
@@ -31,14 +30,20 @@ main(int, char*[]) {
         for (int i = 0; i < header->level_count; ++i) {
             u8* pixels = view.get_view_array<u8>(header->column_count * header->row_count);
             levels.push_back(pixels);
+        }
 
+        int image_size = header->column_count * header->row_count;
+        for (int l = 0; l < levels.size(); ++l) {
+            u8* level = levels[l];
             Image image(header->column_count, header->row_count);
-            for (int k = 0; k < header->column_count*header->row_count; ++k) {
-                u32& pixel_value = image[k];
-                pixel_value = (pixels[i] ^ 0xFE) | pixels[i] << 8 | pixels[i] << 16 | 0xFF << 24;
-            }
 
-            image.write_to_disk(std::format("levels/level_{:02d}.png", i));
+            for (int i = 0; i < image_size; ++i) {
+                u8 pixel = level[i] * 100;
+                // s16 q = quantisation_levels[pixel];
+
+                image[i] = pixel | pixel << 8 | pixel << 16 | 0xFF << 24;
+            }
+            image.write_to_disk(std::format("levels/level_{:02d}.png", l));
         }
 
         /*

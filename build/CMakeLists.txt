@@ -11,6 +11,7 @@ project(Drumstick
 set(CMAKE_C_STANDARD   20)
 set(CMAKE_CXX_STANDARD 20)
 set(SRC 			   "${CMAKE_CURRENT_LIST_DIR}/../src")
+set(VENDOR             "${CMAKE_CURRENT_LIST_DIR}/../vendor")
 
 ## Check release mode:
 if (CMAKE_BUILD_TYPE MATCHES Debug)
@@ -37,12 +38,14 @@ add_executable(Drumstick
 	${SRC}/drumstick/Data.cpp
 	${SRC}/drumstick/File_Header.cpp
 	${SRC}/drumstick/Coordinate.cpp
+	${SRC}/drumstick/Image.cpp
 )
 
 target_include_directories(Drumstick
 	PUBLIC
 	.
 	${SRC}
+	${VENDOR}/stb
 )
 
 target_precompile_headers(Drumstick

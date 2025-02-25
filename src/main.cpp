@@ -3,6 +3,7 @@
 #include <drumstick/Data.hpp>
 #include <drumstick/File_Header.hpp>
 #include <drumstick/Coordinate.hpp>
+#include <drumstick/Image.hpp>
 using namespace drumstick;
 
 int
@@ -15,6 +16,8 @@ main(int, char*[]) {
 
         File_Header* header = view.get_view<File_Header>();
         header->print_self();
+
+        // Image i(header->column_count, header->row_count, data);
 
         s16* quantisation_levels = view.get_view_array<s16>(header->quant_count);
         for (int i = 0; i < header->quant_count; ++i) {
@@ -29,6 +32,7 @@ main(int, char*[]) {
         for (int i = 0; i < header->level_count; ++i) {
             u8* pixels = view.get_view_array<u8>(header->column_count * header->row_count);
             levels.push_back(pixels);
+            Image(header->column_count, header->row_count, pixels).write_to_disk(std::format("level_{}.png", i));
         }
 
         /*
@@ -47,10 +51,6 @@ main(int, char*[]) {
             for (int x = 0; x < header->column_count; ++x) {
                 coordinates.push_back(projection.coordinate_from_grid_position(y, x));
             }
-        }
-
-        for (Coordinate& c: coordinates) {
-            print("({}, {})  ", c.latitude, c.longitude);
         }
     }
 

@@ -5,9 +5,9 @@
 #include <vector>   // IWYU pragma: keep
 #include <string>   // IWYU pragma: keep
 
-
-typedef uint8_t  u8;
 typedef int16_t  s16;
+typedef uint8_t  u8;
+typedef uint32_t u32;
 typedef float    f32;
 
 #define EXPECT(condition, ...)   if (!(condition)) \
